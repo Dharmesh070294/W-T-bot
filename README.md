@@ -1,4 +1,4 @@
-# 🚀 Wallet Tracker Bot (Web3)
+# 🚀 WTB (Web3)
 
 Real-time blockchain monitoring bot that tracks wallet activity, detects swaps, and sends instant Telegram alerts.
 
