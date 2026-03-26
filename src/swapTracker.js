@@ -1,5 +1,10 @@
 const { ethers } = require("ethers");
-const { RPC_URL, TRACKED_WALLETS, WALLET_LABELS } = require("./config");
+const {
+  RPC_URL,
+  TRACKED_WALLETS,
+  WALLET_LABELS,
+  SMART_MONEY_WALLETS,
+} = require("./config");
 const { sendTelegramMessage } = require("./telegram");
 const { decodeSwapFromReceipt } = require("./swapDecoder");
 const { markSwapTx } = require("./state");
@@ -36,6 +41,8 @@ async function startSwapTracker() {
 
           const label = WALLET_LABELS?.[from] || from;
           const router = KNOWN_ROUTERS[to];
+          const isSmart = SMART_MONEY_WALLETS.includes(from);
+          const smartTag = isSmart ? " 🧠 SMART MONEY" : "";
 
           let sentText =
             decoded.sent.length > 0
@@ -61,7 +68,7 @@ async function startSwapTracker() {
               : "N/A";
 
           const message = [
-            `*Swap Detected*`,
+            `*Swap Detected*${smartTag}`,
             `Wallet: \`${label}\``,
             `Router: *${router}*`,
             `Sent: *${sentText}*`,

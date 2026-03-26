@@ -3,6 +3,11 @@ const { startTracker } = require("./tracker");
 const { startErc20Tracker } = require("./erc20Tracker");
 const { startSwapTracker } = require("./swapTracker");
 
+require("dotenv").config();
+const { validateEnv } = require("./validateEnv");
+
+validateEnv();
+
 async function main() {
   try {
     await sendTelegramMessage("Wallet tracker bot started.");
@@ -14,5 +19,6 @@ async function main() {
     console.error("Startup error:", error);
   }
 }
+
 
 main();
