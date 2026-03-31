@@ -1,36 +1,17 @@
 function requireEnv(name) {
   const value = process.env[name];
-  if (!value || !value.trim()) {
+  if (!value) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
-  return value.trim();
+  return value;
 }
 
 function validateEnv() {
-  const required = [
-    "RPC_URL",
-    "TELEGRAM_BOT_TOKEN",
-    "TELEGRAM_CHAT_ID",
-    "TRACKED_WALLETS",
-  ];
-
-  for (const key of required) {
-    requireEnv(key);
-  }
-
-  const wallets = process.env.TRACKED_WALLETS.split(",")
-    .map((w) => w.trim())
-    .filter(Boolean);
-
-  for (const wallet of wallets) {
-    if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) {
-      throw new Error(`Invalid wallet address in TRACKED_WALLETS: ${wallet}`);
-    }
-  }
-
-  if (!/^\d+$/.test(process.env.TELEGRAM_CHAT_ID.trim())) {
-    throw new Error("TELEGRAM_CHAT_ID must be numeric");
-  }
+  requireEnv("WALLET_RPC_URL");
+  requireEnv("SWAP_RPC_URL");
+  requireEnv("TELEGRAM_BOT_TOKEN");
+  requireEnv("TELEGRAM_CHAT_ID");
+  requireEnv("TRACKED_WALLETS");
 }
 
 module.exports = { validateEnv };
